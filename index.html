@@ -782,6 +782,118 @@
   .add-user-title {
     font-size: 13px; font-weight: 600; color: #444; margin-bottom: 10px;
   }
+
+  /* ===== LEAVE APPROVAL ===== */
+  .approval-section {
+    background: white; border-radius: 16px;
+    padding: 18px; margin-bottom: 14px;
+    box-shadow: var(--shadow-sm);
+    display: none;
+  }
+  .approval-section.show { display: block; }
+  .approval-item {
+    background: #F9F9F9; border-radius: 12px;
+    padding: 14px; margin-bottom: 10px;
+    border-left: 4px solid #FFBE8A;
+  }
+  .approval-item.approved { border-left-color: #2E7D32; }
+  .approval-item.rejected { border-left-color: #C62828; }
+  .approval-header {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    margin-bottom: 8px;
+  }
+  .approval-name { font-weight: 600; font-size: 14px; color: #333; }
+  .approval-type { font-size: 12px; color: #888; margin-top: 2px; }
+  .approval-detail { font-size: 12px; color: #666; margin-bottom: 10px; line-height: 1.6; }
+  .approval-btns { display: flex; gap: 8px; }
+  .btn-approve {
+    flex: 1; padding: 8px; border-radius: 8px;
+    background: #E8F5E9; color: #2E7D32;
+    border: 1.5px solid #2E7D32; font-size: 13px;
+    font-weight: 600; cursor: pointer; font-family: 'Sarabun', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-approve:hover { background: #2E7D32; color: white; }
+  .btn-reject {
+    flex: 1; padding: 8px; border-radius: 8px;
+    background: #FFEBEE; color: #C62828;
+    border: 1.5px solid #C62828; font-size: 13px;
+    font-weight: 600; cursor: pointer; font-family: 'Sarabun', sans-serif;
+    transition: all 0.15s;
+  }
+  .btn-reject:hover { background: #C62828; color: white; }
+  .status-pill {
+    padding: 4px 12px; border-radius: 12px;
+    font-size: 11px; font-weight: 700;
+  }
+  .sp-pending  { background: #FFF8E1; color: #F57F17; }
+  .sp-approved { background: #E8F5E9; color: #2E7D32; }
+  .sp-rejected { background: #FFEBEE; color: #C62828; }
+
+  /* ===== LEAVE APPROVAL ===== */
+  .approve-section {
+    background: white; border-radius: 16px;
+    padding: 18px; margin-bottom: 14px;
+    box-shadow: var(--shadow-sm);
+    display: none;
+  }
+  .approve-section.show { display: block; }
+  .approve-item {
+    border: 1px solid #F0F0F0; border-radius: 12px;
+    padding: 14px; margin-bottom: 10px;
+    background: #FAFAFA;
+  }
+  .approve-item-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .approve-name { font-weight: 700; font-size: 14px; color: #333; }
+  .approve-detail { font-size: 12px; color: #888; margin-bottom: 10px; line-height: 1.6; }
+  .approve-btns { display: flex; gap: 8px; }
+  .btn-approve {
+    flex: 1; padding: 9px; border-radius: 10px;
+    background: linear-gradient(135deg, #43A047, #2E7D32);
+    color: white; border: none; font-family: 'Kanit', sans-serif;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .btn-reject {
+    flex: 1; padding: 9px; border-radius: 10px;
+    background: #FFEBEE; color: #C62828;
+    border: 2px solid #FFCDD2; font-family: 'Kanit', sans-serif;
+    font-size: 13px; font-weight: 600; cursor: pointer;
+  }
+  .pending-badge {
+    background: #FFF8E1; color: #F57F17;
+    font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px;
+  }
+  .approved-badge {
+    background: #E8F5E9; color: #2E7D32;
+    font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px;
+  }
+  .rejected-badge {
+    background: #FFEBEE; color: #C62828;
+    font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 10px;
+  }
+  .leave-detail-modal {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+    z-index: 300; display: none; align-items: flex-end; justify-content: center;
+  }
+  .leave-detail-modal.show { display: flex; }
+  .leave-detail-card {
+    background: white; border-radius: 24px 24px 0 0;
+    padding: 24px; width: 100%; max-width: 480px;
+    box-shadow: 0 -8px 48px rgba(0,0,0,0.2);
+  }
+  .leave-detail-row {
+    display: flex; justify-content: space-between;
+    padding: 8px 0; border-bottom: 1px solid #F5F5F5;
+    font-size: 13px;
+  }
+  .leave-detail-label { color: #888; }
+  .leave-detail-value { font-weight: 600; color: #333; }
 </style>
 </head>
 <body>
@@ -985,6 +1097,15 @@
         </div>
       </div>
 
+      <!-- Admin Approval Section -->
+      <div class="approval-section" id="approval-section">
+        <div class="section-title" style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+          <span>⏳ รออนุมัติ</span>
+          <span id="pending-count" style="background:#FFF3EA;color:#E85D04;font-size:12px;font-weight:700;padding:3px 10px;border-radius:10px"></span>
+        </div>
+        <div id="approval-list"></div>
+      </div>
+
       <div class="leave-form">
         <div class="form-title">📝 ยื่นใบลา</div>
         <div class="form-group">
@@ -1024,6 +1145,14 @@
       </div>
 
       <div class="leave-history">
+        <!-- Admin Approve Section -->
+        <div class="approve-section" id="approve-section">
+          <div class="section-title" style="margin-bottom:14px">
+            ⏳ รออนุมัติ <span id="pending-count" style="background:#FFF8E1;color:#F57F17;font-size:12px;padding:2px 8px;border-radius:10px;margin-left:6px"></span>
+          </div>
+          <div id="approve-list"></div>
+        </div>
+
         <div class="section-title" style="display:flex;align-items:center;justify-content:space-between">
           <span>📌 ประวัติการลา</span>
           <div style="display:flex;align-items:center;gap:8px">
@@ -1169,6 +1298,23 @@
       <div class="modal-btns">
         <button class="btn-cancel" onclick="closeConfig()">ยกเลิก</button>
         <button class="btn-save" onclick="saveConfig()">💾 บันทึก</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Leave Detail Modal -->
+<div class="leave-detail-modal" id="leave-detail-modal">
+  <div class="leave-detail-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <div style="font-family:'Kanit',sans-serif;font-size:17px;font-weight:700">รายละเอียดใบลา</div>
+      <button onclick="closeLeaveDetail()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#aaa">✕</button>
+    </div>
+    <div id="leave-detail-content"></div>
+    <div id="leave-detail-admin-btns" style="display:none;margin-top:16px">
+      <div class="approve-btns">
+        <button class="btn-approve" onclick="approveFromDetail('approved')">✅ อนุมัติ</button>
+        <button class="btn-reject" onclick="approveFromDetail('rejected')">❌ ปฏิเสธ</button>
       </div>
     </div>
   </div>
@@ -1329,7 +1475,13 @@ function safeGetConfig() {
 function safeSaveConfig(cfg) {
   try { localStorage.setItem('thynamic_config', JSON.stringify(cfg)); } catch(e) {}
 }
-let config = Object.assign({}, DEFAULT_CONFIG, safeGetConfig());
+const _saved = safeGetConfig();
+// Always keep hardcoded values for sheetsUrl, officeLat, officeLng
+let config = Object.assign({}, DEFAULT_CONFIG, _saved, {
+  sheetsUrl: DEFAULT_CONFIG.sheetsUrl,
+  officeLat: _saved.officeLat || DEFAULT_CONFIG.officeLat,
+  officeLng: _saved.officeLng || DEFAULT_CONFIG.officeLng,
+});
 let workMode = 'office';
 let punchInTime = null;
 let punchOutTime = null;
@@ -1668,26 +1820,88 @@ function renderLeaveHistoryData(records) {
   if (!records || !records.length) {
     list.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px;font-size:13px">ยังไม่มีประวัติการลา</div>';
     updateLeaveBalance(records || []);
+    renderApprovalSection(records || []);
     return;
   }
   list.innerHTML = records.slice().reverse().map(l => {
     const type   = l.type || 'personal';
     const label  = l.typeLabel || TYPE_LABEL[type] || type;
     const status = (l.status || 'pending').toLowerCase();
-    const stTxt  = status === 'approved' ? 'อนุมัติ' : status === 'rejected' ? 'ปฏิเสธ' : 'รออนุมัติ';
+    const stTxt  = status === 'approved' ? '✅ อนุมัติแล้ว' : status === 'rejected' ? '❌ ปฏิเสธ' : '⏳ รออนุมัติ';
     const stCls  = status === 'approved' ? 'ls-approved' : status === 'rejected' ? 'ls-rejected' : 'ls-pending';
+    const spCls  = status === 'approved' ? 'sp-approved' : status === 'rejected' ? 'sp-rejected' : 'sp-pending';
     return `
-    <div class="leave-item">
-      <div>
-        <span class="leave-type-badge lt-${type}">${label}</span>
-        ${l.name ? `<div style="font-size:11px;color:#aaa;margin-top:2px">👤 ${l.name}</div>` : ''}
-        <div style="font-size:13px;color:#444;margin-top:3px">${l.start||l.from||''} – ${l.end||l.to||''} (${l.days||'-'} วัน)</div>
-        <div style="font-size:12px;color:#888">${l.reason||''}</div>
+    <div class="leave-item" style="flex-direction:column;align-items:flex-start;gap:8px">
+      <div style="display:flex;justify-content:space-between;width:100%;align-items:flex-start">
+        <div>
+          <span class="leave-type-badge lt-${type}">${label}</span>
+          ${l.name ? `<span style="font-size:11px;color:#aaa;margin-left:6px">👤 ${l.name}</span>` : ''}
+        </div>
+        <span class="status-pill ${spCls}">${stTxt}</span>
       </div>
-      <span class="leave-status ${stCls}">${stTxt}</span>
+      <div style="font-size:13px;color:#444">${l.start||l.from||''} – ${l.end||l.to||''} <span style="color:#888">(${l.days||'-'} วัน)</span></div>
+      <div style="font-size:12px;color:#888">📝 ${l.reason||''}</div>
     </div>`;
   }).join('');
   updateLeaveBalance(records);
+  renderApprovalSection(records);
+}
+
+function renderApprovalSection(records) {
+  const section = document.getElementById('approval-section');
+  const list    = document.getElementById('approval-list');
+  const countEl = document.getElementById('pending-count');
+  if (!section) return;
+
+  if (!isAdmin) { section.classList.remove('show'); return; }
+
+  const pending = records.filter(r => (r.status||'pending').toLowerCase() === 'pending' || (r.status||'') === 'รออนุมัติ');
+  countEl.textContent = pending.length + ' รายการ';
+
+  if (!pending.length) {
+    section.classList.remove('show');
+    return;
+  }
+  section.classList.add('show');
+
+  list.innerHTML = pending.map((l, i) => {
+    const type  = l.type || 'personal';
+    const label = l.typeLabel || TYPE_LABEL[type] || type;
+    const idx   = records.indexOf(l);
+    return `
+    <div class="approval-item" id="appr-${idx}">
+      <div class="approval-header">
+        <div>
+          <div class="approval-name">👤 ${l.name || 'ไม่ระบุ'}</div>
+          <div class="approval-type">${label} · ${l.start||''} – ${l.end||''} (${l.days||'-'} วัน)</div>
+        </div>
+        <span class="status-pill sp-pending">⏳ รออนุมัติ</span>
+      </div>
+      <div class="approval-detail">📝 เหตุผล: ${l.reason||'-'}</div>
+      <div class="approval-btns">
+        <button class="btn-approve" onclick="approveLeave(${idx},'approved')">✅ อนุมัติ</button>
+        <button class="btn-reject"  onclick="approveLeave(${idx},'rejected')">❌ ปฏิเสธ</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function approveLeave(idx, status) {
+  const local = JSON.parse(localStorage.getItem('hp_leave') || '[]');
+  if (!local[idx]) return;
+  local[idx].status = status;
+  localStorage.setItem('hp_leave', JSON.stringify(local));
+
+  // Sync to sheets
+  const url = config.sheetsUrl;
+  if (url) {
+    const payload = { type: 'UPDATE_LEAVE', name: local[idx].name,
+      start: local[idx].start, status };
+    new Image().src = url + '?data=' + encodeURIComponent(JSON.stringify(payload));
+  }
+
+  renderLeaveHistoryData(local);
+  showToast(status === 'approved' ? '✅ อนุมัติใบลาแล้ว' : '❌ ปฏิเสธใบลาแล้ว');
 }
 
 function updateLeaveBalance(records) {
@@ -1707,7 +1921,9 @@ async function loadLeaveHistory() {
 
   if (!url) {
     const local = JSON.parse(localStorage.getItem('hp_leave') || '[]');
+    leaveRecords = local;
     renderLeaveHistoryData(local);
+    renderApproveSection();
     label.textContent = '💾 ข้อมูลในเครื่อง';
     return;
   }
@@ -1717,12 +1933,16 @@ async function loadLeaveHistory() {
     const data = await res.json();
     if (Array.isArray(data)) {
       localStorage.setItem('hp_leave', JSON.stringify(data));
+      leaveRecords = data;
       renderLeaveHistoryData(data);
+      renderApproveSection();
       label.textContent = '✅ ซิงค์แล้ว ' + new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
     } else throw new Error();
   } catch(e) {
     const local = JSON.parse(localStorage.getItem('hp_leave') || '[]');
+    leaveRecords = local;
     renderLeaveHistoryData(local);
+    renderApproveSection();
     label.textContent = '📴 ออฟไลน์';
   }
 }
@@ -1789,6 +2009,108 @@ async function sendLeaveToSheets(data) {
   try {
     new Image().src = url + '?data=' + encodeURIComponent(JSON.stringify({ type: 'LEAVE', name: config.name || '-', empId: config.empId || '-', ...data }));
   } catch(e) {}
+}
+
+// ===================== LEAVE APPROVAL =====================
+let leaveRecords = [];
+let selectedLeaveIdx = -1;
+
+function renderApproveSection() {
+  const sec = document.getElementById('approve-section');
+  if (!isAdmin) { sec.classList.remove('show'); return; }
+  
+  const pending = leaveRecords.filter(r => 
+    (r.status || 'รออนุมัติ').toLowerCase().includes('รออนุมัติ') || 
+    (r.status || '').toLowerCase() === 'pending'
+  );
+  
+  const countEl = document.getElementById('pending-count');
+  countEl.textContent = pending.length + ' รายการ';
+  
+  if (pending.length === 0) {
+    sec.classList.remove('show');
+    return;
+  }
+  sec.classList.add('show');
+  
+  const list = document.getElementById('approve-list');
+  list.innerHTML = pending.map((r, i) => {
+    const globalIdx = leaveRecords.indexOf(r);
+    const typeLabel = r.typeLabel || r.type || '-';
+    return `
+    <div class="approve-item">
+      <div class="approve-item-header">
+        <div class="approve-name">👤 ${r.name || '-'}</div>
+        <span class="pending-badge">รออนุมัติ</span>
+      </div>
+      <div class="approve-detail">
+        📋 ${typeLabel}<br>
+        📅 ${r.start||r.from||'-'} – ${r.end||r.to||'-'} (${r.days||'-'} วัน)<br>
+        💬 ${r.reason||'-'}
+      </div>
+      <div class="approve-btns">
+        <button class="btn-approve" onclick="updateLeaveStatus(${globalIdx},'approved')">✅ อนุมัติ</button>
+        <button class="btn-reject" onclick="updateLeaveStatus(${globalIdx},'rejected')">❌ ปฏิเสธ</button>
+        <button onclick="showLeaveDetail(${globalIdx})" style="padding:9px 14px;border-radius:10px;background:#F5F5F5;border:none;cursor:pointer;font-size:13px">🔍 ดู</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function updateLeaveStatus(idx, status) {
+  leaveRecords[idx].status = status === 'approved' ? 'อนุมัติ' : 'ปฏิเสธ';
+  
+  // Save locally
+  localStorage.setItem('hp_leave', JSON.stringify(leaveRecords));
+  
+  // Sync to sheets
+  const url = config.sheetsUrl;
+  if (url) {
+    const r = leaveRecords[idx];
+    new Image().src = url + '?data=' + encodeURIComponent(JSON.stringify({
+      type: 'UPDATE_LEAVE_STATUS',
+      name: r.name,
+      start: r.start || r.from,
+      status: leaveRecords[idx].status
+    }));
+  }
+  
+  renderLeaveHistoryData(leaveRecords);
+  renderApproveSection();
+  closeLeaveDetail();
+  showToast(status === 'approved' ? '✅ อนุมัติใบลาแล้ว' : '❌ ปฏิเสธใบลาแล้ว');
+}
+
+function showLeaveDetail(idx) {
+  selectedLeaveIdx = idx;
+  const r = leaveRecords[idx];
+  const typeLabel = r.typeLabel || r.type || '-';
+  const status = r.status || 'รออนุมัติ';
+  const statusCls = status === 'อนุมัติ' ? 'approved-badge' : status === 'ปฏิเสธ' ? 'rejected-badge' : 'pending-badge';
+  
+  document.getElementById('leave-detail-content').innerHTML = `
+    <div class="leave-detail-row"><span class="leave-detail-label">ผู้ยื่นลา</span><span class="leave-detail-value">${r.name||'-'}</span></div>
+    <div class="leave-detail-row"><span class="leave-detail-label">ประเภท</span><span class="leave-detail-value">${typeLabel}</span></div>
+    <div class="leave-detail-row"><span class="leave-detail-label">วันที่เริ่ม</span><span class="leave-detail-value">${r.start||r.from||'-'}</span></div>
+    <div class="leave-detail-row"><span class="leave-detail-label">วันที่สิ้นสุด</span><span class="leave-detail-value">${r.end||r.to||'-'}</span></div>
+    <div class="leave-detail-row"><span class="leave-detail-label">จำนวน</span><span class="leave-detail-value">${r.days||'-'} วัน</span></div>
+    <div class="leave-detail-row"><span class="leave-detail-label">เหตุผล</span><span class="leave-detail-value">${r.reason||'-'}</span></div>
+    <div class="leave-detail-row" style="border:none"><span class="leave-detail-label">สถานะ</span><span class="${statusCls}">${status}</span></div>
+  `;
+  
+  const adminBtns = document.getElementById('leave-detail-admin-btns');
+  const isPending = !['อนุมัติ','ปฏิเสธ','approved','rejected'].includes(status.toLowerCase());
+  adminBtns.style.display = (isAdmin && isPending) ? 'block' : 'none';
+  
+  document.getElementById('leave-detail-modal').classList.add('show');
+}
+
+function closeLeaveDetail() {
+  document.getElementById('leave-detail-modal').classList.remove('show');
+}
+
+function approveFromDetail(status) {
+  if (selectedLeaveIdx >= 0) updateLeaveStatus(selectedLeaveIdx, status);
 }
 
 // ===================== CHATBOT =====================
